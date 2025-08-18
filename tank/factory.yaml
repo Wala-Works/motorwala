@@ -1,0 +1,62 @@
+substitutions:
+  name: tank-factory
+  ap_password: "12345678"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${name}"
+  name_add_mac_suffix: True
+  project:
+    name: "walaworks.motorwala.tank"
+    version: "1.0.0"
+
+esp8266:
+  board: esp01_1m
+
+safe_mode:
+  disabled: True
+
+logger:
+
+api:
+
+ota:
+  platform: esphome
+
+dashboard_import:
+  package_import_url: github://wala-works/motorwala/tank/factory.yaml@main
+  import_full_config: false # or true
+
+wifi:
+  ap:
+    ssid: "${name} Hotspot"
+    password: "${ap_password}"
+
+captive_portal:
+
+sensor:
+  - platform: wifi_signal
+    id: wifi_signal_db
+    name: "WiFi Signal Strength"
+    update_interval: 5s
+  - platform: copy
+    source_id: wifi_signal_db
+    name: "WiFi Signal Percent"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: "diagnostic"
+    device_class: ""
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: IP Address
+      icon: mdi:ip
+    ssid:
+      name: SSID
+      icon: mdi:wifi
+    mac_address:
+      name: MAC
+      icon: mdi:ethernet
+    
