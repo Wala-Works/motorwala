@@ -7,7 +7,7 @@ esphome:
   friendly_name: "${name}"
   name_add_mac_suffix: True
   project:
-    name: "walaworks.motorwala.tank"
+    name: "walaworks.motorwala_tank"
     version: "1.0.0"
 
 esp8266:
