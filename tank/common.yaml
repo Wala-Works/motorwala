@@ -19,6 +19,20 @@ sx127x:
   coding_rate: CR_4_5
   preamble_size: 6
 
+sensor:
+  - platform: wifi_signal
+    id: wifi_signal_db
+    name: "WiFi Signal Strength"
+    update_interval: 5s
+  - platform: copy
+    source_id: wifi_signal_db
+    name: "WiFi Signal Percent"
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: "diagnostic"
+    device_class: ""
+
 text_sensor:
   - platform: wifi_info
     ip_address:
