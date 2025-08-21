@@ -1,5 +1,5 @@
 substitutions:
-  name: tank-factory
+  name: pump-factory
   ap_password: "12345678"
 
 esphome:
@@ -7,8 +7,8 @@ esphome:
   friendly_name: "${name}"
   name_add_mac_suffix: True
   project:
-    name: "walaworks.motorwala_tank"
-    version: "1.0.1"
+    name: "walaworks.motorwala_pump"
+    version: "1.0.0"
 
 esp8266:
   board: esp01_1m
@@ -24,7 +24,7 @@ ota:
   platform: esphome
 
 dashboard_import:
-  package_import_url: github://wala-works/motorwala/tank/factory.yaml@main
+  package_import_url: github://wala-works/motorwala/pump/factory.yaml@main
   import_full_config: false # or true
   refresh: 1h
 
