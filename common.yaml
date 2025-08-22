@@ -1,12 +1,12 @@
 spi:
-  clk_pin: GPIO14
-  mosi_pin: GPIO13
-  miso_pin: GPIO12
+  clk_pin: ${pin_clk}
+  mosi_pin: ${pin_mosi}
+  miso_pin: ${pin_miso}
 
 sx127x:
-  dio0_pin: GPIO5
-  cs_pin: GPIO4
-  rst_pin: GPIO2
+  dio0_pin: ${pin_dio0}
+  cs_pin: ${pin_cs}
+  rst_pin: ${pin_rst}
   pa_pin: BOOST
   pa_power: 8
   bandwidth: 125_0kHz
