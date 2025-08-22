@@ -106,7 +106,7 @@ text:
       then:
         - globals.set:
             id: name_hub
-            value: !lambda id(name_hub).state.c_str();
+            value: !lambda return id(name_hub_user).state.c_str();
   - platform: template
     id: ek_pump_user
     name: Encryption Key (Pump)
@@ -115,7 +115,7 @@ text:
       then:
         - globals.set:
             id: ek_pump
-            value: !lambda id(ek_pump_user).state.c_str();
+            value: !lambda return id(ek_pump_user).state.c_str();
   - platform: template
     id: ek_hub_user
     name: Encryption Key (Hub)
@@ -124,7 +124,7 @@ text:
       then:
         - globals.set:
             id: ek_hub
-            value: !lambda id(ek_hub_user).state.c_str();
+            value: !lambda return id(ek_hub_user).state.c_str();
 
 binary_sensor:
   - platform: packet_transport
