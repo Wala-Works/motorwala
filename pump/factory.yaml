@@ -1,7 +1,17 @@
 substitutions:
   name: motorwala-pump
   ap_password: "12345678"
-
+  pin_clk: GPIO14
+  pin_mosi: GPIO13
+  pin_miso: GPIO12
+  pin_dio0: GPIO5
+  pin_cs: GPIO4
+  pin_rst: GPIO2
+  pin_pulse: GPIO0
+  pin_relay: GPIO16
+  id_pump_state: motor_state
+  id_restart_state: restart_pressed
+  
 esphome:
   name: "${name}"
   friendly_name: "${name}"
@@ -36,7 +46,7 @@ captive_portal:
 
 sensor:
   - platform: pulse_counter
-    pin: GPIO0
+    pin: ${pin_pulse}
     update_interval: 0.5s
     filters:
       - lambda: return (x / 450.0);
@@ -65,10 +75,50 @@ interval:
           
 switch:
   - platform: gpio
-    pin: GPIO16
+    pin: ${pin_relay}
     id: flow_relay
     inverted: True
     restore_mode: RESTORE_DEFAULT_OFF
+
+globals:
+  - id: name_hub
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 8
+    initial_value: '"Hub"'
+  - id: ek_pump
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 8
+    initial_value: '"Motor"'
+  - id: ek_hub
+    type: std::string
+    restore_value: yes
+    max_restore_data_length: 8
+    initial_value: '"Hub"'
+
+binary_sensor:
+  - platform: packet_transport
+    provider: ${name_hub}
+    id: ${id_pump_state}
+  - platform: packet_transport
+    provider: ${name_hub}
+    id: ${id_restart_state}
+    on_press:
+      then:
+        - logger.log: "Restart pressed"
+        - button.press: sys_restart
+        
+packet_transport:
+  platform: sx127x
+  update_interval: 1s
+  rolling_code_enable: false
+  encryption: ${ek_pump}
+  sensors:
+    - flow
+  providers:
+    - name: ${name_hub}
+      encryption: ${ek_hub}
 
 packages:
   common: !include ../common.yaml
