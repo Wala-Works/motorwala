@@ -1,5 +1,5 @@
 substitutions:
-  name: pump-factory
+  name: motorwala-pump
   ap_password: "12345678"
 
 esphome:
