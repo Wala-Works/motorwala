@@ -1,0 +1,38 @@
+substitutions:
+  name: motorwala-hub
+  ap_password: "12345678"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${name}"
+  name_add_mac_suffix: True
+  project:
+    name: "walaworks.motorwala_hub"
+    version: "1.0.0"
+
+esp8266:
+  board: esp01_1m
+
+safe_mode:
+  disabled: True
+
+logger:
+
+api:
+
+ota:
+  platform: esphome
+
+dashboard_import:
+  package_import_url: github://wala-works/motorwala/hub/factory.yaml@main
+  import_full_config: false
+
+wifi:
+  ap:
+    ssid: "${name} Hotspot"
+    password: "${ap_password}"
+
+captive_portal:
+
+packages:
+  common: !include ../common.yaml
