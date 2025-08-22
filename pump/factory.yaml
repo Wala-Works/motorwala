@@ -8,7 +8,7 @@ esphome:
   name_add_mac_suffix: True
   project:
     name: "walaworks.motorwala_pump"
-    version: "1.0.0"
+    version: "1.0.1"
 
 esp8266:
   board: esp01_1m
@@ -33,6 +33,42 @@ wifi:
     password: "${ap_password}"
 
 captive_portal:
+
+sensor:
+  - platform: pulse_counter
+    pin: GPIO0
+    update_interval: 0.5s
+    filters:
+      - lambda: return (x / 450.0);
+    unit_of_measurement: "L/s"
+    id: flow
+
+interval:
+  - interval: 1s
+    then:
+      - if:
+          condition:
+            and:
+              - binary_sensor.is_on: motor_state
+              - switch.is_off: flow_relay
+          then:
+            - logger.log: "Motor turning ON"
+            - switch.turn_on: flow_relay
+      - if:
+          condition:
+            and:
+              - binary_sensor.is_off: motor_state
+              - switch.is_on: flow_relay
+          then:
+            - logger.log: "Motor turning OFF"
+            - switch.turn_off: flow_relay
+          
+switch:
+  - platform: gpio
+    pin: GPIO16
+    id: flow_relay
+    inverted: True
+    restore_mode: RESTORE_DEFAULT_OFF
 
 packages:
   common: !include ../common.yaml
