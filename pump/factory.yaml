@@ -101,7 +101,7 @@ text:
   - platform: template
     id: name_hub_user
     name: Hub
-    type: text
+    mode: text
     on_value:
       then:
         - globals.set:
